@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Assignment 1
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Saya mengikuti semua tutorial dari section 2 di classroom terkait struktur folder dan Blade. Pada project Laravel ini saya menggunakan environtment `Laragon` dan menggunakan template tampilan UI dari `Tailwind`.
 
-## About Laravel
+Cara menjalankan project:</br>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Jalankan aplikasi Laragon dan klik `Start All` untuk mengaktifkan layanan Apache serta MySQL.
+2. Masuk ke direktori project dengan klik Terminal dan ketik `cd <nama-project>`
+3. Jalankan server dengan `php artisan serve` di terminal.
+4. Setelah itu, jalankan `npm run dev` untuk compile asset JavaScript dan Tailwind CSS.
+5. Akses website di browser pada `localhost:8000`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</br>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Pada website kali ini memiliki beberapa komponen yakni navbar, header, dan main yang diatur dalam `layout` dimana slot akan berisikan konten spesifik pada setiap halaman.
 
-## Learning Laravel
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @vite('resources/css/app.css')
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Home</title>
+</head>
+<body>
+<div class="min-h-full">
+<x-navbar></x-navbar>
+<x-header>{{$title}}</x-header>
+  <main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      {{$slot}}
+    </div>
+  </main>
+</div>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+</body>
+</html>
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Beberapa komponen di dalam layout antara lain:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Navbar</br>
+   Merupakan komponen navigasi antar halaman, terdiri atas navigasi halaman Home, Blog, About, Contact, dan juga terdapat dropdown untuk mengakses profil pengguna. Tampilan ini bersifat responsif yang bisa diakses oleh pengguna mobile.
 
-## Laravel Sponsors
+   - Tampilan website
+     ![alt text](img/image-8.png)
+     ```
+     <a {{$attributes}} class="{{ $active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium text-white" aria-current="{{ $active ? 'page' : false}}">{{$slot}}</a>
+     ```
+     - `$attributes` akan mem-parsing data halaman yang sedang diakses, dalam hal ini akan mengambil data URL pada setiap halaman.
+     - `$active` merupakan boolean untuk menyatakan apakah halaman sedang aktif sesuai dengan link URL.
+     - `$slot` akan berisikan komponen di dalam NavLink tersebut.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+     Berikut adalah penggunaannya.
+     ```
+     <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
+     <x-nav-link href="/blog" :active="request()->is('blog')">Blog</x-nav-link>
+     <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
+     <x-nav-link href="/contact" :active="request()->is('/contact')">Contact</x-nav-link>
+     ```
 
-### Premium Partners
+   - Tampilan mobile
+     ![alt text](img/image-9.png)
+     ```
+     <a {{$attributes}} class="{{$active ? 'bg-gray-900 text-white ' : 'text-gray-300 hover:bg-gray-700 hover:text-white '}} block px-3 py-2 text-sm font-medium rounded-md block px-3 py-2 text-sm font-medium rounded-md"aria-current="{{$active ? 'page' : false}}">{{$slot}}</a>
+     ```
+     Sama seperti NavLink pada website, yang dibedakan hanya tampilannya yang ditujukan untuk mobile. Berikut adalah penggunaannya.
+     ```
+     <x-navlink-mobile href="/" :active="request()->is('/')">Home</x-navlink-mobile>
+     <x-navlink-mobile href="/blog" :active="request()->is('blog')">Blog</x-navlink-mobile>
+     <x-navlink-mobile href="/about" :active="request()->is('about')">About</x-navlink-mobile>
+     <x-navlink-mobile href="/contact" :active="request()->is('contact')">Contact</x-navlink-mobile>
+     ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. Header</br>
+   Merupakan komponen yang berisi judul halaman yang sedang aktif.
+   ![alt text](img/image-10.png)
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. Halaman web</br>
+   Pada halaman web akan terbagi menjadi beberapa halaman sebagai berikut. 1. Home </br>
+   Halaman ini merupakan halaman awal ketika website pertama kali diakses. - Tampilan website </br>
+   ![alt text](img/image.png) - Tampilan mobile </br>
+   ![alt text](img/image-4.png) 2. Blog </br>
+   Halaman ini berisikan sejumlah konten untuk artikel atau blog yang memberikan informasi atau wawasan terhadap pembaca. - Tampilan website </br>
+   ![alt text](img/image-1.png) - Tampilan mobile </br>
+   ![alt text](img/image-5.png) 3. About </br>
+   Halaman ini memuat tentang pemilik dari website. - Tampilan website </br>
+   ![alt text](img/image-2.png) - Tampilan mobile </br>
+   ![alt text](img/image-6.png) 4. Contact </br>
+   Halaman ini mencantumkan informasi terkait kontak pemilik website. - Tampilan website </br>
+   ![alt text](img/image-3.png) - Tampilan mobile </br>
+   ![alt text](img/image-7.png)
