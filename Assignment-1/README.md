@@ -47,14 +47,17 @@ Beberapa komponen di dalam layout antara lain:
 
    - Tampilan website
      ![alt text](img/image-8.png)
+
      ```
      <a {{$attributes}} class="{{ $active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}} rounded-md px-3 py-2 text-sm font-medium text-white" aria-current="{{ $active ? 'page' : false}}">{{$slot}}</a>
      ```
+
      - `$attributes` akan mem-parsing data halaman yang sedang diakses, dalam hal ini akan mengambil data URL pada setiap halaman.
      - `$active` merupakan boolean untuk menyatakan apakah halaman sedang aktif sesuai dengan link URL.
      - `$slot` akan berisikan komponen di dalam NavLink tersebut.
 
      Berikut adalah penggunaannya.
+
      ```
      <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
      <x-nav-link href="/blog" :active="request()->is('blog')">Blog</x-nav-link>
@@ -80,16 +83,32 @@ Beberapa komponen di dalam layout antara lain:
    ![alt text](img/image-10.png)
 
 3. Halaman web</br>
-   Pada halaman web akan terbagi menjadi beberapa halaman sebagai berikut. 1. Home </br>
-   Halaman ini merupakan halaman awal ketika website pertama kali diakses. - Tampilan website </br>
-   ![alt text](img/image.png) - Tampilan mobile </br>
-   ![alt text](img/image-4.png) 2. Blog </br>
-   Halaman ini berisikan sejumlah konten untuk artikel atau blog yang memberikan informasi atau wawasan terhadap pembaca. - Tampilan website </br>
-   ![alt text](img/image-1.png) - Tampilan mobile </br>
-   ![alt text](img/image-5.png) 3. About </br>
-   Halaman ini memuat tentang pemilik dari website. - Tampilan website </br>
-   ![alt text](img/image-2.png) - Tampilan mobile </br>
-   ![alt text](img/image-6.png) 4. Contact </br>
-   Halaman ini mencantumkan informasi terkait kontak pemilik website. - Tampilan website </br>
-   ![alt text](img/image-3.png) - Tampilan mobile </br>
-   ![alt text](img/image-7.png)
+   Pada halaman web akan terbagi menjadi beberapa halaman sebagai berikut. </br>
+
+   1. Home </br>
+      Halaman ini merupakan halaman awal ketika website pertama kali diakses.</br>
+      - Tampilan website </br>
+      ![alt text](img/image.png) </br> 
+      - Tampilan mobile </br>
+      ![alt text](img/image-4.png) </br>
+
+   2. Blog </br>
+      Halaman ini berisikan sejumlah konten untuk artikel atau blog yang memberikan informasi atau wawasan terhadap pembaca.</br> 
+      - Tampilan website </br>
+      ![alt text](img/image-1.png) </br> 
+      - Tampilan mobile </br>
+      ![alt text](img/image-5.png) </br>
+
+   3. About </br>
+      Halaman ini memuat tentang pemilik dari website. </br> 
+      - Tampilan website </br>
+      ![alt text](img/image-2.png) </br> 
+      - Tampilan mobile </br>
+      ![alt text](img/image-6.png) </br>
+
+   4. Contact </br>
+      Halaman ini mencantumkan informasi terkait kontak pemilik website.</br> 
+      - Tampilan website </br>
+      ![alt text](img/image-3.png) </br> 
+      - Tampilan mobile </br>
+      ![alt text](img/image-7.png)
